@@ -1,6 +1,6 @@
 import { JM_KEY } from "@/config/config";
 import CryptoJS from "crypto-js";
-import { ru } from "element-plus/es/locale";
+import { fa, ru } from "element-plus/es/locale";
 
 //加密
 export const encrypt = (word: any) => {
@@ -26,25 +26,37 @@ export const decrypt = (word: any) => {
 //文字高亮
 export const heightLine = (str: string, rule?: Array<any>) => {
   if (!str || !rule) return str;
-  console.log(rule)
-  const newRult = rule;
   const heightArr: any = [];
-  rule?.forEach((item: any[]) => {
+  rule?.forEach((item: any[], index) => {
     if (item.length === 0) return;
     const text = str.slice(item[0], item[1]);
-    heightArr.push({
-      sIdx: item[0],
-      len: item[1],
-      text: text,
-      newText: `<span style="color:red;font-size:26px;font-weight:bold">${text}</span>`
-    });
+    // heightArr.push({
+    //   sIdx: item[0],
+    //   len: item[1],
+    //   text: text,
+    //   newText: `<span style="color:red;font-size:26px;font-weight:bold">${text}</span>`
+    // });
   });
 
-  heightArr.forEach((item: any) => {
-    str = str.replace(item["text"], item["newText"]);
-  });
+  const strArr = str.split('')
+  let res = ''
+  strArr?.forEach((item, index) => {
+    let flag = true
+    rule.forEach(i => {
+      if(index >= i[0] && index < i[1]) {
+        res = res + `<span style="color:red;font-size:26px;font-weight:bold">${item}</span>`
+        flag = false;
+      }
+    })
+    if(flag) {
+      res = res + item
+    }
+  })
+  // heightArr.forEach((item: any) => {
+  //   str = str.replace(item["text"], item["newText"]);
+  // });
 
-  return str;
+  return res;
 };
 
 export const debounce = function (func, wait = 500, immediate = false) {

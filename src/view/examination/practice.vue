@@ -184,7 +184,7 @@ const getData = () => {
     }
     http.post("/wrong/questions", params).then(async ({ data }: any) => {
       data?.records?.map((item: any) => {
-        item.title = heightLine(item.title, JSON.parse(item["highlight"]));
+        item.title = heightLine(item.title, item["highlight"] ? JSON.parse(item["highlight"]) : []);
         return item;
       });
       if (!datalist.value.length) {
@@ -204,8 +204,8 @@ const getData = () => {
     };
     http.post("/select/lid/list", params).then(async ({ data }: any) => {
       data?.records?.map((item: any) => {
-        const arr = item["highlight"] ? JSON.parse(item["highlight"]) : []
-        item.title = heightLine(item.title, arr);
+        console.log(item["highlight"])
+        item.title = heightLine(item.title, item["highlight"] ? JSON.parse(item["highlight"]) : []);
         return item;
       });
 
